@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+		<style type="text/css">
+			#biaoti {
+				background: black;
+				border-radius: 10px;
+				color: white;
+				text-indent: 30px;
+				height: 50px;
+				font-size: 25px;
+				line-height: 50px;
+				    box-shadow: 1px 1px 10px black;
+			}
+			
+			table {
+				width: 100%;
+				margin: auto;
+				text-align: center;
+			}
+			
+			.bg {
+				background: #F1F3F4;
+				/*color: white;*/
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1 id="biaoti">ERP系统———供应商管理</h1>
+		<div id="supplier">
+			<table  border="1" cellspacing="0" cellpadding="0">
+				<tr style="background: #DEE1E6;">
+					<th>序号<input type="checkbox"></th>
+					<th>供应商名称</th>
+					<th>联系地址</th>
+					<th>联系电话</th>
+					<th>联系人</th>
+					
+					<th>操作</th>
+				</tr>
+				<tr v-for="(obj,index) in supplier" v-bind:class="{bg:index%2==0}">
+					<td><input type="checkbox"></td>
+					<td>{{obj.supplierName}}</td>
+					<td>{{obj.address}}</td>
+					<td>{{obj.phone}}</td>
+					<td>{{obj.contact}}</td>
+					<td>
+						<a href="##">删除</a> | <a href="##">编辑</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<script src="js/jquery-2.1.4/jquery.js"></script>
+		<script src="js/vue/vue.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$.ajax({
+					type: "get",
+					url: "http://127.0.0.1:8080/SupplierController/selectAllSupplier",
+					async: false,
+					contentType: "application/json;charset=utf-8",
+					dataType: "json",
+					xhrFields: {
+						withCredentials: true
+					},
+					success: function(data) {
+						console.log(data);
+						vm.$data.supplier = data.data;
+						vm.$forceUpdate();
+					}
+				});
+
+			})
+			
+			var vm = new Vue({
+				el: "#supplier",
+				data: {
+					supplier: []
+				},
+				methods: {}
+			})
+		</script>
+	</body>
+
+</html>
